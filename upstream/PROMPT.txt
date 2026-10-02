@@ -1,0 +1,149 @@
+--------------------------------------------------------------------
+Protocol Scenario Guidelines 
+--------------------------------------------------------------------
+
+Find a reliable method of communication among a group of uav nodes using User Datagram Protocol (UDP). 
+The purpose is to establish an agreement protocol among the uav nodes for each to match to a unique target once the target is within range. (See uav-target-demo.mp4)
+
+	Sample Mission Scenario:
+	- Each UAV can track only one target at a time
+	- Once tracking a target, a UAV “locks” on it
+	- Does not switch targets unless the current one gets out of range
+
+	Simple Algorithm:
+	- Find a target
+	- If the target is already tracked, then search for another one
+	- If the target is not tracked, then advertise to others that the target is now tracked
+	- Start tracking the target
+
+Assume the following: 
+
+	- Equal number of UAV nodes and targets. For this scenario (see uav8-notrack-new-gui.xml), there are 8 UAVs and 8 targets. 
+	- Each UAV nodes should track a unique target. No two nodes should track the same target.
+	- Once a UAV selects a target to track, the decision cannot be changed until the target is moved out of range.
+	- Up to 20% packet loss and 200 ms delay.	
+	- UAVs should be within range of each other for communication. Do not need to account for loss of range among UAVs.
+	- UAVs are pretty close to one another. So, multiple UAVs can detect the same target within its range. 
+	  An agreement protocol must be established on which UAV should take that target.
+	- **Although each UAV node may know of the other UAV and targets node ids, avoid assigning arbitrary numbering to match UAV node to target. 
+	  (Ex. uavnode n1 always matches with targetnode n11.) The UAV nodes should communicate using an agreement protocol to decide which UAV should take a target. 
+
+--------------------------------------------------------------------
+What to Code  
+--------------------------------------------------------------------
+
+You need to design an agreement protocol among the UAV nodes to avoid them tracking the same target. Currently, 
+the code implementation has UAV nodes in a multicast group, but each node is unaware of what other potential UAVs are in the group. 
+
+*** Avoid assigning an arbitrary priority (ex. node id, distance, etc...) between nodes to determine which nodes can track a target first. ***
+
+You are solely responsible for updating "track_target_grpc.py", where you must implement an agreement protocol among the UAV nodes. 
+In the current code implementation, you should take a look at the following functions: 
+	- AdvertiseUDP()
+	- ReceiveUDP()
+	- UpdateTracking()
+	- TrackTargets()
+
+You may need to reference the CoreUav class of "move_node_grpc.py", but you should not need to change anything in this module. 
+You should only need to access the following functions of the CoreUav class for your implementation:
+	- setTarget()			-- sets a target for UAV node to track (if UAV is not tracking a target, then the value should be -1)
+	- getTarget() 			-- returns target the UAV node is tracking else returns -1
+	- getPotentialTargets() -- returns a list of potential targets within range
+	- setWypt()				-- sets the waypoint for the UAV node to move to
+	- getWypt()				-- gets the waypoint of the UAV node
+	- getWyptOriginalWypt()	-- get the original starting waypoint of the UAV node
+
+These scripts use XML-RPC to pass information between each other, where "move_node_grpc.py" contains the server and "track_target_grpc.py" contains the client. 
+For example, to obtain the information of the CoreUav class run in the "move_node_grpc.py", you need to call the xmlproxy in the "track_target_grpc.py"
+
+	track_target_grpc.py
+	--------------------
+	xmlproxy.getPotentialTargets(covered_zone, track_range)
+  	xmlproxy.setTarget(uavnode.trackid)
+
+--------------------------------------------------------------------
+Debugging
+--------------------------------------------------------------------
+
+Helpful log files:
+
+	In the "/tmp" folder, there are log files for each CORE node for moving and tracking: 
+
+		- move_n#.log
+		- track_n#.log
+
+	These log files contain the print statements from "move_node_grpc.py" and "track_target_grpc.py".
+
+**Note: When you make code changes to "track_target_grpc.py", you can just re-run the "start_tracking_grpc.sh" script. 
+		You do not need to restart the CORE scenario every time you update the "track_target_grpc.py" script. 
+
+--------------------------------------------------------------------
+Helpful CORE Tips
+--------------------------------------------------------------------
+
+You may want to initially set the delay to 1 usec and loss to 0%. 
+
+To change the latency and loss for the scenario,
+	- Right click on the "wlan21". 
+	- Select "WLAN configuration".
+	- Set "transmission delay" to desired value. 
+	- Set "loss to desired value". 
+
+To get rid of GUI display of IP address or Wireless Links, 
+	- Select "View" on the top tool bar. 
+	- Deselect "IPv4 Address", "IPv6 Address", and "Wireless Links". 
+
+To view processes running, 
+	- Select "Widgets"
+	- Select "List Processes"
+	- Hover over each node to see what process running
+	Note: This is similar to running "ps aux" on each CORE node. 
+
+--------------------------------------------------------------------
+Testing Scenario
+--------------------------------------------------------------------
+
+Entire group set of targets should be moved within range of UAVs. The testing scenario is complete once the last UAV finds its target. 
+To pass the test case, each UAV nodes should match with a unique target. Otherwise, the test case fails.
+
+Testing measurements:
+	- Latency is measured from when the group of targets are placed within range of the UAVs to when the last UAV node tracks a target. 
+	- Throughput is measured in kbps using tcpdump and then plotted using mgen, trpr, and gnuplot.
+
+Test cases to consider: 
+	- When all targets within range of UAVs 
+	- When only a certain number of targets within range of UAVs (ex. 6 out of 8)
+	- When 1 UAV node crashes (loss of comm) and all targets are moved within range
+	- When 2 UAV nodes crashes (loss of comm) and all targets are moved within range
+
+--------------------------------------------------------------------
+Files Guide
+--------------------------------------------------------------------
+
+Scenarios to use in CORE: 
+	- uav8-notrack-new-gui.xml (use for core-pygui)
+	- uav8-notrack-old-gui.xml (use for core-gui)
+
+Swarm scripts: 
+	- start_tracking_grpc.sh (runs track_target_grpc.py for each UAV node)
+	- track_target_grpc.py
+	- move_node_grpc.py
+
+Test scripts (in test folder): 
+	- start_testing_grpc.sh (runs test_uavs_grpc.py to measure latency and throughput)
+	- test_uavs_grpc.py 
+
+Logs: 
+	In the "/tmp" folder, there are log files for each CORE node for moving and tracking: 
+	- move_n#.log
+	- track_n#.log
+	
+	The test script generates a log file for latency and graph to measure throughput: 
+	- latency_avg.log
+	- uavs_throughput_plot.png
+
+Video files:
+	The following video files demonstrate a simple test scenario: 
+    - uav-test-demo.mp4 		-- A demo to show each UAV should match to a unique target once targets are within range.
+    - uav-test-udp-test.mp4    	-- A demo to show how to use udp demo and testing module. Notice, since only udp is used, there are duplicate UAVs tracking the same target. 
+

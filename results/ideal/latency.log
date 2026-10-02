@@ -1,0 +1,70 @@
+
+---------Test 1a - Move all targets within range - 2 second interval between ---------
+Latency:		16.1676 seconds
+    Start Time:	2026-04-24 18:49:15.068787
+    Stop Time:	2026-04-24 18:49:31.236391
+Uav-Target Pairs:	{1: [18], 2: [19], 3: [13], 4: [11], 6: [12], 7: [17], 8: [14], 9: [16]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 1b - Move all targets within range - 2 second interval between - Out of Order ---------
+Latency:		16.2132 seconds
+    Start Time:	2026-04-24 18:49:36.276014
+    Stop Time:	2026-04-24 18:49:52.489189
+Uav-Target Pairs:	{1: [17], 2: [16], 3: [18], 4: [13], 6: [14], 7: [12], 8: [19], 9: [11]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 2a - Move 6 out of 8 targets within range - 2 second interval between ---------
+Latency:		12.2151 seconds
+    Start Time:	2026-04-24 18:49:57.530177
+    Stop Time:	2026-04-24 18:50:09.745270
+Uav-Target Pairs:	{1: [16], 2: [12], 4: [14], 7: [11], 8: [13], 9: [17]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 2b - Move 6 out of 8 targets within range - 2 second interval between - Out of Order ---------
+Latency:		12.1614 seconds
+    Start Time:	2026-04-24 18:50:14.816753
+    Stop Time:	2026-04-24 18:50:26.978159
+Uav-Target Pairs:	{1: [19], 2: [17], 4: [13], 6: [12], 8: [18], 9: [16]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 3a - Move all targets within range ---------
+Latency:		4.5051 seconds
+    Start Time:	2026-04-24 18:50:32.030346
+    Stop Time:	2026-04-24 18:50:36.535487
+Uav-Target Pairs:	{1: [13], 7: [14], 8: [16], 6: [17], 4: [11], 9: [18], 3: [12], 2: [19]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 3b - Move all targets within range - Out of Order ---------
+Latency:		4.2722 seconds
+    Start Time:	2026-04-24 18:50:43.611047
+    Stop Time:	2026-04-24 18:50:47.883285
+Uav-Target Pairs:	{1: [11], 9: [13], 2: [14], 7: [17], 6: [18], 4: [12], 3: [16], 8: [19]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 4 - Crash 1 UAV and move all targets within range ---------
+Latency:		3.2077 seconds
+    Start Time:	2026-04-24 18:50:54.919056
+    Stop Time:	2026-04-24 18:50:58.126766
+Uav-Target Pairs:	{3: [14], 6: [16], 9: [12], 7: [13], 8: [17], 4: [18], 2: [11]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+---------Test 5 - Crash 2 UAV and move all targets within range ---------
+Latency:		3.1652 seconds
+    Start Time:	2026-04-24 18:51:08.199074
+    Stop Time:	2026-04-24 18:51:11.364265
+Uav-Target Pairs:	{2: [12], 8: [13], 7: [11], 9: [14], 1: [16], 3: [17]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+
+
+Number of times uav-target pairings had all unique targets:	8
+Number of times uav-target pairings had duplicate targets:	0
+Average latency across all tests:	8.9884 seconds
+

@@ -1,0 +1,135 @@
+ee597@ee597-VirtualBox:~/uav/swarm-target-grpc-non-itar/test$ ./start_testing_grpc.sh udp
+tcpdump: no process found
+tcpdump: no process found
+tcpdump: no process found
+tcpdump: no process found
+tcpdump: no process found
+tcpdump: no process found
+tcpdump: no process found
+tcpdump: no process found
+
+--------- Test 1a - Move all targets within range - 2 second interval between ------------
+Latency:		16.1459 seconds
+    Start Time:	2026-04-24 19:52:54.302505
+    Stop Time:	2026-04-24 19:53:10.448439
+Uav-Target Pairs:	{1: [14], 2: [18], 3: [16], 4: [11], 6: [12], 7: [13], 8: [17], 9: [13]}
+Result:			Test Case FAILED. Some uavs are tracking the same targets.
+
+--------- Test 1b - Move all targets within range - 2 second interval between - Out of Order ------------
+Latency:		16.1654 seconds
+    Start Time:	2026-04-24 19:53:15.474602
+    Stop Time:	2026-04-24 19:53:31.640038
+Uav-Target Pairs:	{1: [13], 2: [11], 3: [14], 4: [19], 6: [12], 7: [17], 8: [18], 9: [12]}
+Result:			Test Case FAILED. Some uavs are tracking the same targets.
+
+--------- Test 2a - Move 6 out of 8 targets within range - 2 second interval between ------------
+Latency:		13.0171 seconds
+    Start Time:	2026-04-24 19:53:36.663809
+    Stop Time:	2026-04-24 19:53:49.680862
+Uav-Target Pairs:	{1: [12], 4: [14], 6: [13], 7: [11], 9: [16], 8: [17]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+--------- Test 2b - Move 6 out of 8 targets within range - 2 second interval between - Out of Order ------------
+Latency:		12.1329 seconds
+    Start Time:	2026-04-24 19:53:54.699722
+    Stop Time:	2026-04-24 19:54:06.832577
+Uav-Target Pairs:	{1: [12], 2: [19], 3: [14], 4: [17], 6: [11], 7: [13]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+--------- Test 3a - Move all targets within range  ------------
+Latency:		7.6368 seconds
+    Start Time:	2026-04-24 19:54:11.851877
+    Stop Time:	2026-04-24 19:54:19.488712
+Uav-Target Pairs:	{4: [13], 7: [12], 8: [11], 9: [16], 2: [14], 3: [17], 1: [18], 6: [19]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+
+--------- Test 3b - Move all targets within range - Out of Order ------------
+Latency:		7.0148 seconds
+    Start Time:	2026-04-24 19:54:26.512161
+    Stop Time:	2026-04-24 19:54:33.526921
+Uav-Target Pairs:	{7: [12], 3: [11], 2: [14], 9: [16], 1: [14], 4: [13], 6: [17], 8: [18]}
+Result:			Test Case FAILED. Some uavs are tracking the same targets.
+
+--------- Test 4 - Crash 1 UAV and move all targets within range  ------------
+Uavs to Crash:		[3]
+Latency:		4.8710 seconds
+    Start Time:	2026-04-24 19:54:40.549257
+    Stop Time:	2026-04-24 19:54:45.420224
+Uav-Target Pairs:	{1: [12], 6: [11], 7: [14], 8: [16], 2: [13], 4: [18], 9: [17]}
+Result:			Test Case PASSED. All uavs are tracking different targets.
+pkill: killing pid 25969 failed: Operation not permitted
+pkill: killing pid 25971 failed: Operation not permitted
+pkill: killing pid 25972 failed: Operation not permitted
+pkill: killing pid 25974 failed: Operation not permitted
+
+--------- Test 5 - Crash 2 UAV and move all targets within range ------------
+Uavs to Crash:		[4, 8]
+Latency:		6.3906 seconds
+    Start Time:	2026-04-24 19:54:55.475847
+    Stop Time:	2026-04-24 19:55:01.866412
+Uav-Target Pairs:	{6: [11], 9: [12], 2: [16], 1: [13], 3: [14], 7: [16]}
+Result:			Test Case FAILED. Some uavs are tracking the same targets.
+pkill: killing pid 26115 failed: Operation not permitted
+pkill: killing pid 26116 failed: Operation not permitted
+pkill: killing pid 26117 failed: Operation not permitted
+pkill: killing pid 26118 failed: Operation not permitted
+pkill: killing pid 26119 failed: Operation not permitted
+pkill: killing pid 26121 failed: Operation not permitted
+
+
+Number of times uav-target pairings had all unique targets:	4
+Number of times uav-target pairings had duplicate targets:	4
+Average latency across all tests:	10.4218 seconds
+
+
+Latency log written to: /home/ee597/uav/swarm-target-grpc-non-itar/test/latency_avg.log
+Plotting graphs for uav nodes...
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:00/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:01/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:02/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:03/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:04/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:05/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:06/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+TRPR Version 2.1b11
+trpr: Adding autoMatcher: *,*/*->*/*~*
+trpr: Invalid tcpdump output: "tcpdump: verbose output suppressed, use -v or -vv for full protocol decode"
+trpr: Invalid tcpdump output: "listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes"
+trpr: At time 0.000000 - Adding flow: ether,00:00:00:aa:00:07/0->01:00:5e:01:01:01/0~0
+trpr: Done.
+
