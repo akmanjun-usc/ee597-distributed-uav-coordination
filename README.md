@@ -101,9 +101,4 @@ The scenario and network impairment settings still require the supplied CORE/Lin
 
 The complete list is in [docs/limitations.md](docs/limitations.md).
 
-## Provenance and redistribution
-
-The agreement protocol and report were produced for EE 597. The CORE scenario framework, movement script, icons, prompt, and related assets were supplied with the lab. No clear redistribution license was found in the supplied package. Review [LICENSE-NOTES.md](LICENSE-NOTES.md) before making this repository public.
-
 This repository must not be interpreted as flight-control software or as a safety-certified distributed system.
-
